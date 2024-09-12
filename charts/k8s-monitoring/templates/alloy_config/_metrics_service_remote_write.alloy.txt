@@ -63,9 +63,7 @@ prometheus.remote_write "metrics_service" {
       {{- end }}
 {{- else if eq .authMode "sigv4" }}
     sigv4 {
-      {{- if .sigv4.accessKey }}
       access_key = nonsensitive(remote.kubernetes.secret.metrics_service.data[{{ .sigv4.accessKeyKey | quote }}])
-      {{- end }}
       {{- if .sigv4.profile }}
       profile = {{ .sigv4.profile | quote }}
       {{- end }}
@@ -75,9 +73,7 @@ prometheus.remote_write "metrics_service" {
       {{- if .sigv4.roleArn }}
       role_arn = {{ .sigv4.roleArn | quote }}
       {{- end }}
-      {{- if .sigv4.secretKey }}
       secret_key = remote.kubernetes.secret.metrics_service.data[{{ .sigv4.secretKeyKey | quote }}]
-      {{- end }}
     }
 {{- end }}
 {{ if .writeRelabelConfigRules }}
